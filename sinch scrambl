@@ -1,0 +1,29 @@
+#include <cstdio>
+
+void scram(unsigned char &key, unsigned char &letter)
+{
+    unsigned char output = 0;
+    unsigned short pow2 = 128;
+    bool newbit;
+    for (unsigned int i = 0; i <= 7; i++)
+    {
+        newbit = ((key%2) ^ ((key/16)%2)) ^ ((letter/pow2)%2);
+        output += newbit*pow2;
+        key = (key >> 1) + newbit*128;
+        pow2 /= 2;
+    }
+    letter = output;
+}
+
+int main()
+{
+    unsigned char key = 5;
+    unsigned char input;
+    while (scanf("%c", &input))
+    {
+        if (input == '\n') break;
+        scram(key, input);
+        printf("%x ", input);
+    }
+    return 0;
+}
